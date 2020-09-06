@@ -24,7 +24,7 @@ class CallPatient extends StatelessWidget {
           Navigator.pushNamed(context, "/profile", arguments: {
             "patient_name": patientName,
           });
-          customLaunch("tel:+1 555 521 5554");
+          customLaunch("tel:+1 555 521 5556");
         },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),

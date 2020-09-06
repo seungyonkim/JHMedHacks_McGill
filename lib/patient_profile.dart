@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import "word_list.dart";
-import 'package:speech_recognition/speech_recognition.dart';
+import "package:speech_to_text/speech_to_text.dart" as stt;
 
 class PatientProfile extends StatefulWidget {
   @override
@@ -8,37 +8,41 @@ class PatientProfile extends StatefulWidget {
 }
 
 class _PatientProfileState extends State<PatientProfile> {
-  SpeechRecognition _speechRecognition;
-  bool _isAvailable = false;
+  stt.SpeechToText _speech;
   bool _isListening = false;
-  String resultText = "";
+  String _text = "Press the button and start speaking";
+  double _confidence = 1.0;
 
   Map data = {};
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   initSpeechRecognizer();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _speech = stt.SpeechToText();
+  }
 
-  // void initSpeechRecognizer() {
-  //   _speechRecognition = SpeechRecognition();
-  //   _speechRecognition.setAvailabilityHandler((result) {
-  //     setState(() => _isAvailable = result);
-  //   });
-  //   _speechRecognition.setRecognitionStartedHandler(() {
-  //     setState(() => _isListening = true);
-  //   });
-  //   _speechRecognition.setRecognitionResultHandler((text) {
-  //     setState(() => resultText = text);
-  //   });
-  //   _speechRecognition.setRecognitionCompleteHandler(() {
-  //     setState(() => _isListening = false);
-  //   });
-  //   _speechRecognition.activate().then(
-  //       (result) => setState(() => _isAvailable = result)
-  //   );
-  // }
+  void _listen() async {
+    if(!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (val) => print("onStatus: $val"),
+        onError: (val) => print("onError: $val"),
+      );
+      if(available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (val) => setState(() {
+            _text = val.recognizedWords;
+            if(val.hasConfidenceRating && val.confidence > 0) {
+              _confidence = val.confidence;
+            }
+          }),
+        );
+      }
+    } else {
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,91 +54,88 @@ class _PatientProfileState extends State<PatientProfile> {
         backgroundColor: Colors.pinkAccent,
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 30.0, 0, 30.0),
-        child: Column(
-          children: [
-            // Patient Name
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 30.0, 0, 30.0),
+            child: Column(
               children: [
-                Text(
-                  data["patient_name"],
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 36,
+                // Patient Name
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      data["patient_name"],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 36,
+                      ),
+                    ),
+                  ],
+                ),
+                // Patient Profile Icon
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.account_circle,
+                        size: 150,
+                      )
+                    ]
+                ),
+                // Patient Word List
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(30, 10, 30, 0),
+                        child: WordList(),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RaisedButton(
+                        child: Icon(Icons.cancel),
+                        // mini: true,
+                        // backgroundColor: Colors.deepOrange,
+                        onPressed: () {},
+                      ),
+                      RaisedButton(
+                        child: Icon(_isListening ? Icons.mic : Icons.mic_none),
+                        // backgroundColor: Colors.pink,
+                        onPressed: () {
+                          _listen();
+                        },
+                      ),
+                      RaisedButton(
+                        child: Icon(Icons.stop),
+                        // mini: true,
+                        // backgroundColor: Colors.deepPurple,
+                        onPressed: () {},
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-            // Patient Profile Icon
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.account_circle,
-                  size: 150,
+                Container(
+                    padding: EdgeInsets.fromLTRB(30, 30, 30, 30),
+                    child: Text(
+                        _text,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                        )
+                    )
                 )
-              ]
-            ),
-            // Patient Word List
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(30, 10, 30, 0),
-                      child: WordList(),
-                    ),
-                ),
               ],
             ),
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       FloatingActionButton(
-            //         child: Icon(Icons.cancel),
-            //         mini: true,
-            //         backgroundColor: Colors.deepOrange,
-            //         onPressed: () {},
-            //       ),
-            //       FloatingActionButton(
-            //         child: Icon(Icons.mic),
-            //         backgroundColor: Colors.pink,
-            //         onPressed: () {
-            //           // if(_isAvailable && _isListening) {
-            //           //   _speechRecognition
-            //           //       .listen()
-            //           //       .then((result) => print('$result'));
-            //           // }
-            //         },
-            //       ),
-            //       FloatingActionButton(
-            //         child: Icon(Icons.stop),
-            //         mini: true,
-            //         backgroundColor: Colors.deepPurple,
-            //         onPressed: () {},
-            //       ),
-            //     ],
-            //   ),
-            // ),
-      //       Container(
-      //         width: MediaQuery.of(context).size.width * 0.6,
-      //         decoration: BoxDecoration(
-      //           color: Colors.cyanAccent[100],
-      //           borderRadius: BorderRadius.circular(6),
-      //         ),
-      //         padding: EdgeInsets.symmetric(
-      //           vertical: 8,
-      //           horizontal: 12,
-      //         ),
-      //         child: Text(resultText),
-      //       )
-          ],
-        ),
-      )
+          ),
+      ),
     );
   }
 }
