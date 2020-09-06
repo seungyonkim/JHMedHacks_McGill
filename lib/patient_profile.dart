@@ -1,9 +1,44 @@
 import 'package:flutter/material.dart';
 import "word_list.dart";
+import 'package:speech_recognition/speech_recognition.dart';
 
-class PatientProfile extends StatelessWidget {
+class PatientProfile extends StatefulWidget {
+  @override
+  _PatientProfileState createState() => _PatientProfileState();
+}
+
+class _PatientProfileState extends State<PatientProfile> {
+  SpeechRecognition _speechRecognition;
+  bool _isAvailable = false;
+  bool _isListening = false;
+  String resultText = "";
 
   Map data = {};
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   initSpeechRecognizer();
+  // }
+
+  // void initSpeechRecognizer() {
+  //   _speechRecognition = SpeechRecognition();
+  //   _speechRecognition.setAvailabilityHandler((result) {
+  //     setState(() => _isAvailable = result);
+  //   });
+  //   _speechRecognition.setRecognitionStartedHandler(() {
+  //     setState(() => _isListening = true);
+  //   });
+  //   _speechRecognition.setRecognitionResultHandler((text) {
+  //     setState(() => resultText = text);
+  //   });
+  //   _speechRecognition.setRecognitionCompleteHandler(() {
+  //     setState(() => _isListening = false);
+  //   });
+  //   _speechRecognition.activate().then(
+  //       (result) => setState(() => _isAvailable = result)
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +89,49 @@ class PatientProfile extends StatelessWidget {
                 ),
               ],
             ),
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       FloatingActionButton(
+            //         child: Icon(Icons.cancel),
+            //         mini: true,
+            //         backgroundColor: Colors.deepOrange,
+            //         onPressed: () {},
+            //       ),
+            //       FloatingActionButton(
+            //         child: Icon(Icons.mic),
+            //         backgroundColor: Colors.pink,
+            //         onPressed: () {
+            //           // if(_isAvailable && _isListening) {
+            //           //   _speechRecognition
+            //           //       .listen()
+            //           //       .then((result) => print('$result'));
+            //           // }
+            //         },
+            //       ),
+            //       FloatingActionButton(
+            //         child: Icon(Icons.stop),
+            //         mini: true,
+            //         backgroundColor: Colors.deepPurple,
+            //         onPressed: () {},
+            //       ),
+            //     ],
+            //   ),
+            // ),
+      //       Container(
+      //         width: MediaQuery.of(context).size.width * 0.6,
+      //         decoration: BoxDecoration(
+      //           color: Colors.cyanAccent[100],
+      //           borderRadius: BorderRadius.circular(6),
+      //         ),
+      //         padding: EdgeInsets.symmetric(
+      //           vertical: 8,
+      //           horizontal: 12,
+      //         ),
+      //         child: Text(resultText),
+      //       )
           ],
         ),
       )

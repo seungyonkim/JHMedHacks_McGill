@@ -53,7 +53,7 @@ class _PatientCardState extends State<PatientCard> {
             ),
             Expanded(
               flex: 1,
-              child: CallPatient(),
+              child: CallPatient( patientName: widget.name ),
             ),
           ],
         ),
