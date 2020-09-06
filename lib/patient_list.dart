@@ -20,10 +20,13 @@ class _PatientListState extends State<PatientList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: patients.map((patient) => PatientCard(
-        name: patient,
-      )).toList(),
+    return Container(
+        margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
+        child: Column(
+          children: patients.map((patient) => PatientCard(
+            name: patient,
+          )).toList(),
+        ),
     );
   }
 }

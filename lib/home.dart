@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
                 child: Text(
                   "Patients List",
                   style: TextStyle(
@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
                 child: Text(
                     "date"
                 ),

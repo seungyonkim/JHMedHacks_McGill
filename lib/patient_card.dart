@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import "word_list.dart";
+import "call_patient.dart";
 
 class PatientCard extends StatelessWidget {
 
@@ -9,9 +11,9 @@ class PatientCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.fromLTRB(12, 16, 12, 0),
+      margin: EdgeInsets.fromLTRB(12, 0, 12, 12),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 26, 12, 26),
+        padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
         child: Row(
           children: [
             Expanded(
@@ -21,45 +23,20 @@ class PatientCard extends StatelessWidget {
                 child: Text(
                   name,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 16,
                     color: Colors.black,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
             Expanded(
               flex: 4,
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      color: Colors.redAccent,
-                    ),
-                    child: Text(
-                      "sample",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    )
-                  ),
-                ]
-              ),
+              child: WordList(),
             ),
             Expanded(
               flex: 1,
-              child: Container(
-                child: RaisedButton(
-                  onPressed: () {},
-                  color: Colors.white,
-                  child: Icon(
-                    Icons.call,
-                    color: Colors.green,
-                    size: 20,
-                  ),
-                ),
-              ),
+              child: CallPatient(),
             ),
           ],
         ),
@@ -67,23 +44,3 @@ class PatientCard extends StatelessWidget {
     );
   }
 }
-
-//             Text(
-//               kart.type,
-//               style: TextStyle(
-//                 fontSize: 14,
-//                 color: Colors.grey[800],
-//               ),
-//             ),
-//             SizedBox(height: 8),
-//             RaisedButton.icon(
-//               onPressed: delete,
-//               label: Text("delete this kart"),
-//               icon: Icon(Icons.delete),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
