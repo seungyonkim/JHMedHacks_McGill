@@ -9,7 +9,7 @@ class PatientList extends StatefulWidget {
 class _PatientListState extends State<PatientList> {
 
   List<String> patients = [
-    "Julia Robert",
+    "Juliaa Robert",
     "David Sweet",
     "Tim Lo",
     "Hannah Brown",
@@ -30,20 +30,3 @@ class _PatientListState extends State<PatientList> {
     );
   }
 }
-
-// backgroundColor: Colors.grey[300],
-// appBar: AppBar(
-//   title: Text("Favorite Karts"),
-//   centerTitle: true,
-//   backgroundColor: Colors.blueAccent,
-// ),
-// body: Column(
-//   children: kartbodies.map((kart) => KartCard(
-//     kart: kart,
-//     delete: () {
-//       setState(() {
-//         kartbodies.remove(kart);
-//       });
-//     },
-//   )).toList(),
-// ),

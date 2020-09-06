@@ -15,6 +15,9 @@ class _WordListState extends State<WordList> {
     Word(vocab: "cough", isUrgent: true),
     Word(vocab: "ache", isUrgent: false),
     Word(vocab: "drowsy", isUrgent: false),
+    Word(vocab: "vomit", isUrgent: true),
+    Word(vocab: "sample1", isUrgent: false),
+    Word(vocab: "sample2", isUrgent: false),
   ];
 
   @override
